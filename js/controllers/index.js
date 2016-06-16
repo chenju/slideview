@@ -47,9 +47,9 @@ angular.module('wscene.controllers', []).controller('HomeController',
             $scope.resize = function() {
 
 
-                var scale= 1624/2480
+                var scale = 1624 / 2480
                 $scope.style.pageH = document.documentElement.clientHeight + 3
-                $scope.style.pageW = $scope.style.pageH*scale
+                $scope.style.pageW = $scope.style.pageH * scale
                     //$scope.style.main = {height:$scope.style.pageH*$scope.pagecount+'px'}
                 $scope.style.mainW = ($scope.style.pageW) * $scope.pagecount + 'px'
                 $scope.style.transform = 'translate3d(0px, 0px, 0px)'
@@ -193,7 +193,7 @@ angular.module('wscene.controllers', []).controller('HomeController',
                     })
                 }*/
                 $scope.pagecount = $scope.datas.length
-                $scope.resize()
+                //$scope.resize()
                 $scope.pageanmi[$scope.pagnum] = '{init:false}'
 
             }
@@ -202,6 +202,71 @@ angular.module('wscene.controllers', []).controller('HomeController',
 
 
     )
+   
+    .directive('resize', ['$window', function ($window) {
+
+     return {
+        link: link,
+        restrict: 'E',
+        template: '<div>window size: {{width}}px</div>'
+     };
+
+     function link(scope, element, attrs){
+
+       scope.width = $window.innerWidth;
+
+       angular.element($window).bind('resize', function(){
+
+         
+         scope.width = $window.innerWidth;
+         console.log(scope.width)
+         // manuall $digest required as resize event
+         // is outside of angular
+         scope.$digest();
+       });
+
+     }
+
+ }])/*
+    .directive('resize3', function($window) {
+        return function(scope, element) {
+            var w = angular.element($window);
+            scope.getWindowDimensions = function() {
+                console.log(w)
+                console.log(w.innerHeight)
+                return {
+                    'h': w.height,
+                    'w': w.width
+                };
+            };
+            scope.$watch(scope.getWindowDimensions, function(newValue, oldValue) {
+                scope.windowHeight = newValue.h;
+                scope.windowWidth = newValue.w;
+
+                /*scope.style = function() {
+                    return {
+                        'height': (newValue.h - 100) + 'px',
+                        'width': (newValue.w - 100) + 'px'
+                    };
+                };
+                var scale = 1624 / 2480
+
+                scope.style = function() {
+                    return {
+                        'pageH': (newValue.h + 3) + 'px',
+                        'pageW': (newValue.h + 3)*scale + 'px',
+                        'mainW': (scope.style.pageW) * scope.pagecount + 'px'
+                    };
+                }; 
+
+
+            }, true);
+
+            w.bind('resize', function() {
+                scope.$apply();
+            });
+        }
+    })*/
     .directive('signup', ['$http', function($http) {
 
         return {

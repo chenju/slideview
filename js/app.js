@@ -33,6 +33,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpP
 
     }])
 
+
 angular.module('wscene').animation('.test', ['$animateCss', function($animateCss) {
     return {
         enter: function(element, doneFn) {
